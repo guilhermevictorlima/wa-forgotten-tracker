@@ -1,0 +1,12 @@
+/* Abas do painel */
+.wai-tabs { display: flex; gap: 4px; padding: 0 14px; border-bottom: 1px solid var(--line); }
+.wai-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; padding: 8px 10px;
+  color: var(--muted); font: inherit; font-weight: 600; cursor: pointer;
+}
+.wai-tab:hover { color: var(--fg); }
+.wai-tab.is-active { color: var(--fg); border-bottom-color: #1f6f5c; }
+
+.wai-pane { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.wai-pane[hidden] { display: none; }

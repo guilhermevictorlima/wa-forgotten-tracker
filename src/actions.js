@@ -5,6 +5,8 @@ import { exportChatsAsCsv } from "./csv-export.js";
 import { render, showStatus } from "./ui/render.js";
 import { locateChat } from "./chat-locator.js";
 
+import { bindTabs, selectTab } from "./ui/tabs.js";
+
 let isBusy = false;
 
 function togglePanelVisibility(ui) {
@@ -24,6 +26,7 @@ function applyScanResult(ui, chats) {
   ui.exportButton.disabled = chats.length === 0;
   if (chats.length === 0) showEmptyResultWarning(ui);
   render(ui);
+  if (chats.length > 0) selectTab(ui, "list");
 }
 
 async function handleScanClick(ui) {
@@ -49,6 +52,8 @@ export function bindEvents(ui, toggleButton) {
   ui.chatList.addEventListener("click", (event) => handleChatClick(ui, event));
   ui.minimumDaysInput.addEventListener("input", () => render(ui));
   ui.nameSearchInput.addEventListener("input", () => render(ui));
+
+  bindTabs(ui);
 }
 
 async function handleChatClick(ui, event) {

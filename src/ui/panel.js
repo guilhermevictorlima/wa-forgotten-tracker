@@ -69,6 +69,8 @@ export function mapPanelElements(panel) {
     nameSearchInput: find(".wai-search"),
     statusText: find(".wai-status"),
     chatList: find(".wai-list"),
-    exportButton: find(".wai-csv")
+    exportButton: find(".wai-csv"),
+    tabButtons: [...panel.querySelectorAll(".wai-tab")],
+    tabPanes: [...panel.querySelectorAll(".wai-pane")]
   };
 }
