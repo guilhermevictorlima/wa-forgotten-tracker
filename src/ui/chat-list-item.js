@@ -14,7 +14,7 @@ function createTextSpan(className, text) {
 export function createChatListItem(chat, maxDaysAgo) {
   const item = document.createElement("li");
   item.className = `wai-item wai-${classifyForgetfulness(chat.daysAgo)}`;
-  item.title = `Rótulo original: ${chat.label}`;
+  item.title = `última Conversa: ${chat.label}`;
   item.style.setProperty("--w", `${calculateBarWidthPercent(chat.daysAgo, maxDaysAgo)}%`);
   item.append(
     createTextSpan("wai-name", chat.name),
