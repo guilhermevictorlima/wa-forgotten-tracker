@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Conversas esquecidas",
   "version": "1.0.0",
+  "permissions": ["storage"],
   "content_scripts": [
     {
       "matches": ["https://web.whatsapp.com/*"],

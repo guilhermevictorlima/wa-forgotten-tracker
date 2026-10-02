@@ -4,8 +4,8 @@ import { scanAllChats } from "./scanner.js";
 import { exportChatsAsCsv } from "./csv-export.js";
 import { render, showStatus } from "./ui/render.js";
 import { locateChat } from "./chat-locator.js";
-
 import { bindTabs, selectTab } from "./ui/tabs.js";
+import { ignoreChat, restoreChat, getActiveChats } from "./ignored.js";
 
 let isBusy = false;
 
@@ -23,7 +23,6 @@ function showEmptyResultWarning(ui) {
 
 function applyScanResult(ui, chats) {
   state.chats = chats;
-  ui.exportButton.disabled = chats.length === 0;
   if (chats.length === 0) showEmptyResultWarning(ui);
   render(ui);
   if (chats.length > 0) selectTab(ui, "list");
@@ -48,7 +47,9 @@ export function bindEvents(ui, toggleButton) {
   toggleButton.addEventListener("click", () => togglePanelVisibility(ui));
   ui.closeButton.addEventListener("click", () => hidePanel(ui));
   ui.scanButton.addEventListener("click", () => handleScanClick(ui));
-  ui.exportButton.addEventListener("click", () => exportChatsAsCsv(state.chats));
+  ui.exportButton.addEventListener("click", () => exportChatsAsCsv(getActiveChats()));
+  ui.chatList.addEventListener("click", (event) => handleIgnoreClick(ui, event));
+  ui.ignoredList.addEventListener("click", (event) => handleRestoreClick(ui, event));
   ui.chatList.addEventListener("click", (event) => handleChatClick(ui, event));
   ui.minimumDaysInput.addEventListener("input", () => render(ui));
   ui.nameSearchInput.addEventListener("input", () => render(ui));
@@ -76,5 +77,36 @@ async function handleChatClick(ui, event) {
     showStatus(ui, error.message);
   } finally {
     isBusy = false;
+  }
+}
+
+async function handleIgnoreClick(ui, event) {
+  const button = event.target.closest(".wai-ignore-button");
+  if (!button) return;
+
+  const name = button.dataset.chatName;
+  try {
+    await ignoreChat(name);
+    render(ui);
+    showStatus(ui, `“${name}” foi ignorada. Para desfazer, use a aba Ignoradas.`);
+  } catch (error) {
+    showStatus(ui, `Não foi possível salvar: ${error.message}`);
+  }
+}
+
+async function handleRestoreClick(ui, event) {
+  const button = event.target.closest(".wai-restore-button");
+  if (!button) return;
+
+  const name = button.dataset.chatName;
+  const appearsInLastScan = state.chats.some((chat) => chat.name === name);
+  try {
+    await restoreChat(name);
+    render(ui);
+    showStatus(ui, appearsInLastScan
+      ? `“${name}” restaurada.`
+      : `“${name}” restaurada. Faça uma nova varredura para ela aparecer na lista.`);
+  } catch (error) {
+    showStatus(ui, `Não foi possível salvar: ${error.message}`);
   }
 }

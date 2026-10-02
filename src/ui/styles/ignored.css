@@ -1,0 +1,13 @@
+/* Aba de conversas ignoradas */
+.wai-ignored-list { list-style: none; margin: 0; padding: 0 8px; overflow-y: auto; flex: 1; min-height: 0; }
+.wai-ignored-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 7px 8px; border-bottom: 1px solid var(--line);
+}
+.wai-ignored-item .wai-name { min-width: 0; }
+.wai-restore-button {
+  background: none; border: 1px solid var(--line); border-radius: 6px;
+  color: var(--fg); font: inherit; font-size: 12px; padding: 3px 8px; cursor: pointer;
+}
+.wai-restore-button:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.wai-empty { margin: 0; padding: 16px 14px; color: var(--muted); font-size: 13px; }

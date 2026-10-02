@@ -71,6 +71,9 @@ export function mapPanelElements(panel) {
     chatList: find(".wai-list"),
     exportButton: find(".wai-csv"),
     tabButtons: [...panel.querySelectorAll(".wai-tab")],
-    tabPanes: [...panel.querySelectorAll(".wai-pane")]
+    tabPanes: [...panel.querySelectorAll(".wai-pane")],
+    ignoredTab: find("#wai-tab-ignored"),
+    ignoredList: find(".wai-ignored-list"),
+    ignoredEmpty: find(".wai-empty"),
   };
 }

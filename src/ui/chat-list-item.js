@@ -11,21 +11,32 @@ function createTextSpan(className, text) {
   return span;
 }
 
+function createIgnoreButton(name) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "wai-ignore-button";
+  button.dataset.chatName = name;
+  button.title = "Ignorar esta conversa";
+  button.setAttribute("aria-label", `Ignorar ${name}`);
+  button.textContent = "🚫";
+  return button;
+}
+
 export function createChatListItem(chat, maxDaysAgo) {
   const item = document.createElement("li");
   item.className = `wai-item wai-${classifyForgetfulness(chat.daysAgo)}`;
-  item.title = `última Conversa: ${chat.label}`;
+  item.title = `Rótulo original: ${chat.label}`;
   item.style.setProperty("--w", `${calculateBarWidthPercent(chat.daysAgo, maxDaysAgo)}%`);
 
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "wai-item-button";
-  button.dataset.chatName = chat.name;
-  button.append(
+  const openButton = document.createElement("button");
+  openButton.type = "button";
+  openButton.className = "wai-item-button";
+  openButton.dataset.chatName = chat.name;
+  openButton.append(
     createTextSpan("wai-name", chat.name),
     createTextSpan("wai-days", formatDaysAgo(chat.daysAgo))
   );
 
-  item.append(button);
+  item.append(openButton, createIgnoreButton(chat.name));
   return item;
 }

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="styles/heat.css">
 <link rel="stylesheet" href="styles/footer.css">
 <link rel="stylesheet" href="styles/highlight.css">
+<link rel="stylesheet" href="styles/ignored.css">
 
 <header class="wai-head">
   <h2>Conversas esquecidas</h2>
@@ -22,6 +23,8 @@
           data-tab="scan" aria-selected="true" aria-controls="wai-pane-scan">Varredura</button>
   <button class="wai-tab" id="wai-tab-list" type="button" role="tab"
           data-tab="list" aria-selected="false" aria-controls="wai-pane-list" tabindex="-1">Conversas</button>
+  <button class="wai-tab" id="wai-tab-ignored" type="button" role="tab"
+          data-tab="ignored" aria-selected="false" aria-controls="wai-pane-ignored" tabindex="-1">Ignoradas</button>
 </div>
 
 <p class="wai-status">Clique em “Varrer conversas” para montar a lista.</p>
@@ -45,4 +48,10 @@
   <footer class="wai-foot">
     <button class="wai-csv" disabled>Exportar CSV</button>
   </footer>
+</section>
+
+<section class="wai-pane" id="wai-pane-ignored" role="tabpanel"
+         aria-labelledby="wai-tab-ignored" data-pane="ignored" hidden>
+  <p class="wai-empty">Nenhuma conversa ignorada.</p>
+  <ol class="wai-ignored-list"></ol>
 </section>
