@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "WhatsApp – Conversas esquecidas",
+  "version": "1.0.0",
+  "description": "Lista seus contatos do WhatsApp Web ordenados pelo tempo desde a última conversa.",
+  "content_scripts": [
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
