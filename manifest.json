@@ -5,13 +5,12 @@
   "content_scripts": [
     {
       "matches": ["https://web.whatsapp.com/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"]
+      "js": ["content.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["src/*.js", "src/ui/*.js", "src/ui/*.html"],
+      "resources": ["src/*.js", "src/ui/*.js", "src/ui/*.html", "src/ui/styles/*.css"],
       "matches": ["https://web.whatsapp.com/*"]
     }
   ]

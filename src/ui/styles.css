@@ -1,0 +1,61 @@
+.wai-toggle {
+  position: fixed; right: 20px; bottom: 20px; z-index: 9999;
+  width: 48px; height: 48px; border-radius: 50%; border: none;
+  background: #1f6f5c; color: #fff; font-size: 22px; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.wai-toggle:focus-visible, .wai-panel button:focus-visible, .wai-panel input:focus-visible {
+  outline: 2px solid #f2a541; outline-offset: 2px;
+}
+
+.wai-panel {
+  --bg: #fbfaf7; --fg: #1d2a27; --muted: #6b7a76; --line: #e3e0d8;
+  position: fixed; right: 20px; bottom: 80px; z-index: 9999;
+  width: 340px; max-height: 72vh; display: flex; flex-direction: column;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--line);
+  border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  font: 14px/1.4 "Segoe UI", Helvetica, Arial, sans-serif;
+}
+body.dark .wai-panel, html[data-theme="dark"] .wai-panel {
+  --bg: #1b2522; --fg: #e8ece9; --muted: #93a39e; --line: #2c3a36;
+}
+.wai-panel[hidden] { display: none; }
+
+.wai-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 4px; }
+.wai-head h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.wai-close { background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; line-height: 1; }
+
+.wai-controls { display: grid; gap: 8px; padding: 8px 14px; }
+.wai-controls label { color: var(--muted); font-size: 13px; }
+.wai-min { width: 52px; margin: 0 4px; }
+.wai-controls input {
+  background: transparent; color: var(--fg); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 8px; font: inherit;
+}
+.wai-scan, .wai-csv {
+  background: #1f6f5c; color: #fff; border: none; border-radius: 6px;
+  padding: 8px 10px; font: inherit; font-weight: 600; cursor: pointer;
+}
+.wai-scan:disabled, .wai-csv:disabled { opacity: .5; cursor: default; }
+
+.wai-status { margin: 0; padding: 0 14px 8px; color: var(--muted); font-size: 12px; }
+
+.wai-list { list-style: none; margin: 0; padding: 0 8px; overflow-y: auto; flex: 1; }
+.wai-item {
+  position: relative; display: flex; justify-content: space-between; gap: 10px;
+  padding: 7px 8px; border-bottom: 1px solid var(--line);
+}
+/* Barra de "esquecimento": proporcional aos dias sem conversa */
+.wai-item::before {
+  content: ""; position: absolute; left: 0; bottom: -1px; height: 3px;
+  width: var(--w); border-radius: 2px; background: var(--heat);
+}
+.wai-warm { --heat: #5bb08f; }
+.wai-cool { --heat: #f2a541; }
+.wai-cold { --heat: #d1495b; }
+.wai-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wai-days { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.wai-cold .wai-days { color: #d1495b; font-weight: 600; }
+
+.wai-foot { padding: 10px 14px; border-top: 1px solid var(--line); }
+.wai-csv { width: 100%; }

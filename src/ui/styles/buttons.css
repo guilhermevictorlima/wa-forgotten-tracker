@@ -1,0 +1,6 @@
+/* Botões de ação principais */
+.wai-scan, .wai-csv {
+  background: #1f6f5c; color: #fff; border: none; border-radius: 6px;
+  padding: 8px 10px; font: inherit; font-weight: 600; cursor: pointer;
+}
+.wai-scan:disabled, .wai-csv:disabled { opacity: .5; cursor: default; }

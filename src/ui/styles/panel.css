@@ -1,0 +1,9 @@
+/* Contêiner do painel */
+.wai-panel {
+  position: fixed; right: 20px; bottom: 80px; z-index: 9999;
+  width: 340px; max-height: 72vh; display: flex; flex-direction: column;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--line);
+  border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  font: 14px/1.4 "Segoe UI", Helvetica, Arial, sans-serif;
+}
+.wai-panel[hidden] { display: none; }

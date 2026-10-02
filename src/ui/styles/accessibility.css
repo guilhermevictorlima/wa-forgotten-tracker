@@ -1,0 +1,4 @@
+/* Indicador de foco visível para navegação por teclado */
+.wai-toggle:focus-visible, .wai-panel button:focus-visible, .wai-panel input:focus-visible {
+  outline: 2px solid #f2a541; outline-offset: 2px;
+}

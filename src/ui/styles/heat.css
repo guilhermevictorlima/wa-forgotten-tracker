@@ -1,0 +1,9 @@
+/* Barra de "esquecimento": proporcional aos dias sem conversa */
+.wai-item::before {
+  content: ""; position: absolute; left: 0; bottom: -1px; height: 3px;
+  width: var(--w); border-radius: 2px; background: var(--heat);
+}
+.wai-warm { --heat: #5bb08f; }
+.wai-cool { --heat: #f2a541; }
+.wai-cold { --heat: #d1495b; }
+.wai-cold .wai-days { color: #d1495b; font-weight: 600; }
