@@ -24,7 +24,8 @@ export const SELECTORS = {
   chatRowsPrimary: '[role="listitem"]',
   chatRowsFallback: '[role="row"]',
   contactTitle: "span[title]",
-  rowTextElements: "div, span"
+  rowTextElements: "div, span",
+  openChat: "#main"
 };
 
 export const PANEL_TEMPLATE_PATH = "src/ui/panel.html";
