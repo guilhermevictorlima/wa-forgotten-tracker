@@ -1,9 +1,10 @@
-// Localiza uma conversa na lista do WhatsApp, rola até ela e a destaca.
 import {
   MAX_SCROLL_ATTEMPTS_WITHOUT_PROGRESS,
+  SCROLL_SETTLE_DELAY_MS,
   HIGHLIGHT_CLASS,
   HIGHLIGHT_DURATION_MS
 } from "./constants.js";
+import { wait } from "./utils.js";
 import { findChatListPane, findChatRowByName } from "./chat-reader.js";
 import { scrollToTop, scrollOneStepDown } from "./scanner.js";
 
@@ -23,6 +24,14 @@ function reportProgress(pane, onProgress) {
   onProgress(percent);
 }
 
+async function jumpToSavedOffset(pane, chat) {
+  if (typeof chat.scrollOffset !== "number") return null;
+
+  pane.scrollTop = Math.max(0, chat.scrollOffset - pane.clientHeight / 2);
+  await wait(SCROLL_SETTLE_DELAY_MS);
+  return findChatRowByName(pane, chat.name);
+}
+
 async function searchByScrolling(pane, name, onProgress) {
   let attemptsWithoutProgress = 0;
 
@@ -38,18 +47,21 @@ async function searchByScrolling(pane, name, onProgress) {
   return null;
 }
 
-export async function locateChat(name, onProgress = () => {}) {
+export async function locateChat(chat, onProgress = () => {}) {
   const pane = findChatListPane();
   if (!pane) throw new Error("Abra o WhatsApp Web e aguarde a lista de conversas carregar.");
 
-  const alreadyVisible = findChatRowByName(pane, name);
+  const alreadyVisible = findChatRowByName(pane, chat.name);
   if (alreadyVisible) {
     revealRow(alreadyVisible);
     return true;
   }
 
   const originalScrollPosition = pane.scrollTop;
-  const row = await searchByScrolling(pane, name, onProgress);
+  const row =
+    (await jumpToSavedOffset(pane, chat)) ??
+    (await searchByScrolling(pane, chat.name, onProgress));
+
   if (!row) {
     pane.scrollTop = originalScrollPosition;
     return false;

@@ -55,17 +55,18 @@ async function handleChatClick(ui, event) {
   const button = event.target.closest(".wai-item-button");
   if (!button || isBusy) return;
 
-  const name = button.dataset.chatName;
+  const chat = state.chats.find((item) => item.name === button.dataset.chatName);
+  if (!chat) return;
+
   isBusy = true;
-  showStatus(ui, `Localizando “${name}”…`);
+  showStatus(ui, `Localizando “${chat.name}”…`);
   try {
-    const found = await locateChat(name, (percent) =>
-      showStatus(ui, `Procurando “${name}”… ${percent}% da lista`)
+    const found = await locateChat(chat, (percent) =>
+      showStatus(ui, `Procurando “${chat.name}”… ${percent}% da lista`)
     );
-    
     showStatus(ui, found
-      ? `Mostrando “${name}”`
-      : `“${name}” não foi encontrada na lista.`);
+      ? `Mostrando “${chat.name}”`
+      : `“${chat.name}” não foi encontrada na lista.`);
   } catch (error) {
     showStatus(ui, error.message);
   } finally {

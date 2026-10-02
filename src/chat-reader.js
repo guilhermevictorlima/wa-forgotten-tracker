@@ -29,18 +29,26 @@ function findLastMessageTime(row, titleElement) {
   return null;
 }
 
-function readChatRow(row) {
+function measureRowOffset(row, pane) {
+  const rowTop = row.getBoundingClientRect().top;
+  const paneTop = pane.getBoundingClientRect().top;
+  return Math.round(rowTop - paneTop + pane.scrollTop);
+}
+
+function readChatRow(row, pane) {
   const titleElement = row.querySelector(SELECTORS.contactTitle);
   const name = readContactName(titleElement);
   if (!name) return null;
 
   const lastMessage = findLastMessageTime(row, titleElement);
-  return lastMessage ? { name, ...lastMessage } : null;
+  if (!lastMessage) return null;
+
+  return { name, scrollOffset: measureRowOffset(row, pane), ...lastMessage };
 }
 
 export function collectVisibleChats(pane, chatsByName) {
   for (const row of findVisibleChatRows(pane)) {
-    const chat = readChatRow(row);
+    const chat = readChatRow(row, pane);
     if (chat && !chatsByName.has(chat.name)) chatsByName.set(chat.name, chat);
   }
 }
