@@ -3,6 +3,9 @@ import { state } from "./state.js";
 import { scanAllChats } from "./scanner.js";
 import { exportChatsAsCsv } from "./csv-export.js";
 import { render, showStatus } from "./ui/render.js";
+import { locateChat } from "./chat-locator.js";
+
+let isBusy = false;
 
 function togglePanelVisibility(ui) {
   ui.panel.hidden = !ui.panel.hidden;
@@ -24,6 +27,8 @@ function applyScanResult(ui, chats) {
 }
 
 async function handleScanClick(ui) {
+  if (isBusy) return;
+  isBusy = true;
   ui.scanButton.disabled = true;
   try {
     const chats = await scanAllChats((count) => showStatus(ui, `Lendo conversas… ${count} encontradas`));
@@ -32,6 +37,7 @@ async function handleScanClick(ui) {
     showStatus(ui, error.message);
   } finally {
     ui.scanButton.disabled = false;
+    isBusy = false;
   }
 }
 
@@ -40,6 +46,29 @@ export function bindEvents(ui, toggleButton) {
   ui.closeButton.addEventListener("click", () => hidePanel(ui));
   ui.scanButton.addEventListener("click", () => handleScanClick(ui));
   ui.exportButton.addEventListener("click", () => exportChatsAsCsv(state.chats));
+  ui.chatList.addEventListener("click", (event) => handleChatClick(ui, event));
   ui.minimumDaysInput.addEventListener("input", () => render(ui));
   ui.nameSearchInput.addEventListener("input", () => render(ui));
+}
+
+async function handleChatClick(ui, event) {
+  const button = event.target.closest(".wai-item-button");
+  if (!button || isBusy) return;
+
+  const name = button.dataset.chatName;
+  isBusy = true;
+  showStatus(ui, `Localizando “${name}”…`);
+  try {
+    const found = await locateChat(name, (percent) =>
+      showStatus(ui, `Procurando “${name}”… ${percent}% da lista`)
+    );
+    
+    showStatus(ui, found
+      ? `Mostrando “${name}”`
+      : `“${name}” não foi encontrada na lista.`);
+  } catch (error) {
+    showStatus(ui, error.message);
+  } finally {
+    isBusy = false;
+  }
 }

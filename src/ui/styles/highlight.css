@@ -1,0 +1,4 @@
+.wai-highlight {
+  outline: 3px solid #f2a541 !important;
+  outline-offset: -3px;
+}

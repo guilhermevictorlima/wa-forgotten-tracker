@@ -29,3 +29,6 @@ export const SELECTORS = {
 };
 
 export const PANEL_TEMPLATE_PATH = "src/ui/panel.html";
+
+export const HIGHLIGHT_CLASS = "wai-highlight";
+export const HIGHLIGHT_DURATION_MS = 2500;

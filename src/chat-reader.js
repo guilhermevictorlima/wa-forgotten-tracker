@@ -44,3 +44,11 @@ export function collectVisibleChats(pane, chatsByName) {
     if (chat && !chatsByName.has(chat.name)) chatsByName.set(chat.name, chat);
   }
 }
+
+export function findChatRowByName(pane, name) {
+  for (const row of findVisibleChatRows(pane)) {
+    const titleElement = row.querySelector(SELECTORS.contactTitle);
+    if (readContactName(titleElement) === name) return row;
+  }
+  return null;
+}

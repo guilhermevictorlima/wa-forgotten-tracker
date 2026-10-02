@@ -8,18 +8,6 @@ import {
 import { wait } from "./utils.js";
 import { findChatListPane, collectVisibleChats } from "./chat-reader.js";
 
-async function scrollToTop(pane) {
-  pane.scrollTop = 0;
-  await wait(INITIAL_SCROLL_DELAY_MS);
-}
-
-async function scrollOneStepDown(pane) {
-  const previousPosition = pane.scrollTop;
-  pane.scrollTop += pane.clientHeight * SCROLL_STEP_RATIO;
-  await wait(SCROLL_SETTLE_DELAY_MS);
-  return pane.scrollTop !== previousPosition;
-}
-
 function sortByMostForgotten(chats) {
   return [...chats].sort((a, b) => b.daysAgo - a.daysAgo);
 }
@@ -42,4 +30,16 @@ export async function scanAllChats(onProgress) {
 
   pane.scrollTop = originalScrollPosition;
   return sortByMostForgotten(chatsByName.values());
+}
+
+export async function scrollToTop(pane) {
+  pane.scrollTop = 0;
+  await wait(INITIAL_SCROLL_DELAY_MS);
+}
+
+export async function scrollOneStepDown(pane) {
+  const previousPosition = pane.scrollTop;
+  pane.scrollTop += pane.clientHeight * SCROLL_STEP_RATIO;
+  await wait(SCROLL_SETTLE_DELAY_MS);
+  return pane.scrollTop !== previousPosition;
 }
