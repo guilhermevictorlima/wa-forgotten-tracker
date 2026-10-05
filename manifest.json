@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Acompanhamento de Contatos",
+  "name": "Alufaz - Acompanhamento de Contatos",
   "version": "1.0.0",
   "permissions": ["storage"],
   "content_scripts": [

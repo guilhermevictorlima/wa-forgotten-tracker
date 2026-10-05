@@ -43,16 +43,18 @@ function renderIgnoredList(ui) {
 
 export function render(ui) {
   const activeChats = getActiveChats();
-  const visibleChats = filterChats(activeChats, readFilters(ui));
+  const visibleChats = getVisibleChats(ui);
 
-  ui.exportButton.disabled = activeChats.length === 0;
+  ui.exportButton.disabled = visibleChats.length === 0;
   renderChatList(ui, visibleChats, activeChats);
   renderSummary(ui, visibleChats.length, activeChats.length);
   renderIgnoredList(ui);
 }
 
 export function refreshSummary(ui) {
-  const activeChats = getActiveChats();
-  const visibleChats = filterChats(activeChats, readFilters(ui));
-  renderSummary(ui, visibleChats.length, activeChats.length);
+  renderSummary(ui, getVisibleChats(ui).length, getActiveChats().length);
+}
+
+export function getVisibleChats(ui) {
+  return filterChats(getActiveChats(), readFilters(ui));
 }
