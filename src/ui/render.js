@@ -23,8 +23,9 @@ function isDayRangeInvalid({ minimumDays, maximumDays }) {
   return minimumDays > maximumDays;
 }
 
-export function showStatus(ui, message) {
+export function showStatus(ui, message, { isError = false } = {}) {
   ui.statusText.textContent = message;
+  ui.statusText.classList.toggle("is-error", isError);
 }
 
 function renderChatList(ui, visibleChats, activeChats) {
@@ -58,7 +59,7 @@ export function render(ui) {
 
 function renderStatus(ui, filters, visibleCount, activeCount) {
   if (isDayRangeInvalid(filters)) {
-    showStatus(ui, "O mínimo de dias não pode ser maior que o máximo.");
+    showStatus(ui, "O mínimo de dias não pode ser maior que o máximo.", { isError: true });
     return;
   }
 

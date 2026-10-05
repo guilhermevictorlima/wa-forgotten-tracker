@@ -1,9 +1,10 @@
-/* Variáveis de tema do painel (claro e escuro) */
 .wai-panel {
   --bg: #fbfaf7; --fg: #1d2a27; --muted: #6b7a76; --line: #e3e0d8;
   --brand: #1f6f5c;
+  --danger: #b3261e;
 }
 
 body.dark .wai-panel, html[data-theme="dark"] .wai-panel {
   --bg: #1b2522; --fg: #e8ece9; --muted: #93a39e; --line: #2c3a36;
+  --danger: #f2b8b5;
 }
