@@ -1,4 +1,16 @@
 /* Cabeçalho: título e botão de fechar */
-.wai-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 4px; }
+.wai-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 14px 4px;
+  background: linear-gradient(var(--brand), var(--brand)) top / 100% 20px no-repeat;
+  border-radius: 10px 10px 0 0;
+}
+
+.wai-head * {
+	padding-top: 15px;
+}
+
+.wai-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.wai-logo { width: 24px; height: 24px; object-fit: contain; flex-shrink: 0; }
 .wai-head h2 { margin: 0; font-size: 16px; font-weight: 600; }
 .wai-close { background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; line-height: 1; }

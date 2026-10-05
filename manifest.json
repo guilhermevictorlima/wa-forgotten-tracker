@@ -11,7 +11,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["src/*.js", "src/ui/*.js", "src/ui/*.html", "src/ui/styles/*.css"],
+      "resources": ["src/*.js", "src/ui/*.js", "src/ui/*.html", "src/ui/styles/*.css", "icons/*"],
       "matches": ["https://web.whatsapp.com/*"]
     }
   ]
