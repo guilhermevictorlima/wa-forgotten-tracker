@@ -18,3 +18,7 @@ export function countWholeDaysSince(date) {
 export function normalizeText(text) {
   return (text || "").trim().toLowerCase();
 }
+
+export function hasPositiveValue(input) {
+  return Number(input.value) >= 1;
+}

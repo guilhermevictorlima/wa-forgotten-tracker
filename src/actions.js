@@ -6,6 +6,7 @@ import { render, showStatus, refreshSummary, getVisibleChats } from "./ui/render
 import { locateChat } from "./chat-locator.js";
 import { bindTabs, selectTab } from "./ui/tabs.js";
 import { ignoreChat, restoreChat } from "./ignored.js";
+import { hasPositiveValue } from "./utils.js";
 
 
 let isBusy = false;
@@ -29,42 +30,23 @@ function applyScanResult(ui, chats) {
   if (chats.length > 0) selectTab(ui, "list");
 }
 
-function toggleMinDaysLabel(event) {
-  const minDays = event.target.value;
-  const showLabel = minDays >= 1;
+function syncDayRangeFields(ui) {
+  const { minimumDaysInput, maximumDaysInput } = ui;
 
-  const elementMinLabel = document.querySelector('.wai-min-label')
-
-  if (showLabel) {
-    elementMinLabel.classList.remove("wai-min-label-hide");
-  } else {
-    elementMinLabel.classList.add("wai-min-label-hide");
-    event.target.value = null;
-    document.querySelector('.wai-max').value = 1;
+  if (!hasPositiveValue(minimumDaysInput)) {
+    minimumDaysInput.value = "";
+    maximumDaysInput.value = "1";
   }
-}
-
-function handleMinimumDaysInput(ui, event) {
-  toggleMinDaysLabel(event);
-  render(ui);
-}
-
-function toggleMaxDaysLabel(event) {
-  const maxDays = event.target.value;
-  const showLabel = maxDays >= 1;
-
-  const elementMaxLabel = document.querySelector('.wai-max-label')
-
-  if (showLabel) {
-    elementMaxLabel.classList.remove("wai-max-label-hide");
-  } else {
-    elementMaxLabel.classList.add("wai-max-label-hide");
-    event.target.value = null;
+  if (!hasPositiveValue(maximumDaysInput)) {
+    maximumDaysInput.value = "";
   }
+
+  ui.minimumDaysLabel.classList.toggle("wai-min-label-hide", minimumDaysInput.value === "");
+  ui.maximumDaysLabel.classList.toggle("wai-max-label-hide", maximumDaysInput.value === "");
 }
 
-function handleMaximumDaysInput(ui, event) {
-  toggleMaxDaysLabel(event);
+function handleDayRangeInput(ui) {
+  syncDayRangeFields(ui);
   render(ui);
 }
 
@@ -93,8 +75,8 @@ export function bindEvents(ui, toggleButton) {
   ui.ignoredList.addEventListener("click", (event) => handleRestoreClick(ui, event));
   ui.chatList.addEventListener("click", (event) => handleChatClick(ui, event));
   
-  ui.minimumDaysInput.addEventListener("input", (event) => handleMinimumDaysInput(ui, event));
-  ui.maximumDaysInput.addEventListener("input", (event) => handleMaximumDaysInput(ui, event));
+  ui.minimumDaysInput.addEventListener("input", () => handleDayRangeInput(ui));
+  ui.maximumDaysInput.addEventListener("input", () => handleDayRangeInput(ui));
 
   ui.nameSearchInput.addEventListener("input", () => render(ui));
 

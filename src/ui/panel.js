@@ -73,6 +73,8 @@ export function mapPanelElements(panel) {
     scanButton: find(".wai-scan"),
     minimumDaysInput: find(".wai-min"),
     maximumDaysInput: find(".wai-max"),
+    minimumDaysLabel: find(".wai-min-label"),
+    maximumDaysLabel: find(".wai-max-label"),
     nameSearchInput: find(".wai-search"),
     statusText: find(".wai-status"),
     chatList: find(".wai-list"),
