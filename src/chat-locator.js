@@ -8,16 +8,18 @@ import { wait } from "./utils.js";
 import { findChatListPane, findChatRowByName } from "./chat-reader.js";
 import { scrollToTop, scrollOneStepDown } from "./scanner.js";
 
-function highlightRow(row) {
+function highlightRow(row, onHighlightEnd) {
   row.classList.add(HIGHLIGHT_CLASS);
-  setTimeout(() => row.classList.remove(HIGHLIGHT_CLASS), HIGHLIGHT_DURATION_MS);
+  setTimeout(() => {
+    row.classList.remove(HIGHLIGHT_CLASS);
+    onHighlightEnd();
+  }, HIGHLIGHT_DURATION_MS);
 }
 
-function revealRow(row) {
+function revealRow(row, onHighlightEnd) {
   row.scrollIntoView({ block: "center" });
-  highlightRow(row);
+  highlightRow(row, onHighlightEnd);
 }
-
 function reportProgress(pane, onProgress) {
   const scrollable = pane.scrollHeight - pane.clientHeight;
   const percent = scrollable > 0 ? Math.round((pane.scrollTop / scrollable) * 100) : 0;
@@ -47,13 +49,13 @@ async function searchByScrolling(pane, name, onProgress) {
   return null;
 }
 
-export async function locateChat(chat, onProgress = () => {}) {
+export async function locateChat(chat, onProgress = () => {}, onHighlightEnd = () => {}) {
   const pane = findChatListPane();
   if (!pane) throw new Error("Abra o WhatsApp Web e aguarde a lista de conversas carregar.");
 
   const alreadyVisible = findChatRowByName(pane, chat.name);
   if (alreadyVisible) {
-    revealRow(alreadyVisible);
+    revealRow(alreadyVisible, onHighlightEnd);
     return true;
   }
 
@@ -67,6 +69,6 @@ export async function locateChat(chat, onProgress = () => {}) {
     return false;
   }
 
-  revealRow(row);
+  revealRow(row, onHighlightEnd);
   return true;
 }

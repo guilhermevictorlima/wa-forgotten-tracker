@@ -44,3 +44,9 @@ export function render(ui) {
   renderSummary(ui, visibleChats.length, activeChats.length);
   renderIgnoredList(ui);
 }
+
+export function refreshSummary(ui) {
+  const activeChats = getActiveChats();
+  const visibleChats = filterChats(activeChats, readFilters(ui));
+  renderSummary(ui, visibleChats.length, activeChats.length);
+}

@@ -2,10 +2,11 @@
 import { state } from "./state.js";
 import { scanAllChats } from "./scanner.js";
 import { exportChatsAsCsv } from "./csv-export.js";
-import { render, showStatus } from "./ui/render.js";
+import { render, showStatus, refreshSummary } from "./ui/render.js";
 import { locateChat } from "./chat-locator.js";
 import { bindTabs, selectTab } from "./ui/tabs.js";
 import { ignoreChat, restoreChat, getActiveChats } from "./ignored.js";
+
 
 let isBusy = false;
 
@@ -47,6 +48,7 @@ export function bindEvents(ui, toggleButton) {
   toggleButton.addEventListener("click", () => togglePanelVisibility(ui));
   ui.closeButton.addEventListener("click", () => hidePanel(ui));
   ui.scanButton.addEventListener("click", () => handleScanClick(ui));
+
   ui.exportButton.addEventListener("click", () => exportChatsAsCsv(getActiveChats()));
   ui.chatList.addEventListener("click", (event) => handleIgnoreClick(ui, event));
   ui.ignoredList.addEventListener("click", (event) => handleRestoreClick(ui, event));
@@ -64,14 +66,20 @@ async function handleChatClick(ui, event) {
   const chat = state.chats.find((item) => item.name === button.dataset.chatName);
   if (!chat) return;
 
+  const foundMessage = `Mostrando “${chat.name}”`;
+
   isBusy = true;
   showStatus(ui, `Localizando “${chat.name}”…`);
   try {
-    const found = await locateChat(chat, (percent) =>
-      showStatus(ui, `Procurando “${chat.name}”… ${percent}% da lista`)
+    const found = await locateChat(
+      chat,
+      (percent) => showStatus(ui, `Procurando “${chat.name}”… ${percent}% da lista`),
+      () => {
+        if (ui.statusText.textContent === foundMessage) refreshSummary(ui);
+      }
     );
     showStatus(ui, found
-      ? `Mostrando “${chat.name}”`
+      ? foundMessage
       : `“${chat.name}” não foi encontrada na lista.`);
   } catch (error) {
     showStatus(ui, error.message);
