@@ -19,6 +19,10 @@ function readFilters(ui) {
   };
 }
 
+function isDayRangeInvalid({ minimumDays, maximumDays }) {
+  return minimumDays > maximumDays;
+}
+
 export function showStatus(ui, message) {
   ui.statusText.textContent = message;
 }
@@ -42,17 +46,31 @@ function renderIgnoredList(ui) {
 }
 
 export function render(ui) {
+  const filters = readFilters(ui);
   const activeChats = getActiveChats();
-  const visibleChats = getVisibleChats(ui);
+  const visibleChats = filterChats(activeChats, filters);
 
   ui.exportButton.disabled = visibleChats.length === 0;
   renderChatList(ui, visibleChats, activeChats);
-  renderSummary(ui, visibleChats.length, activeChats.length);
+  renderStatus(ui, filters, visibleChats.length, activeChats.length);
   renderIgnoredList(ui);
 }
 
+function renderStatus(ui, filters, visibleCount, activeCount) {
+  if (isDayRangeInvalid(filters)) {
+    showStatus(ui, "O mínimo de dias não pode ser maior que o máximo.");
+    return;
+  }
+
+  showStatus(ui, "Acompanhe suas conversas e o tempo de ociosidade com seus contatos");
+  renderSummary(ui, visibleCount, activeCount);
+}
+
 export function refreshSummary(ui) {
-  renderSummary(ui, getVisibleChats(ui).length, getActiveChats().length);
+  const filters = readFilters(ui);
+  const activeChats = getActiveChats();
+  const visibleChats = filterChats(activeChats, filters);
+  renderStatus(ui, filters, visibleChats.length, activeChats.length);
 }
 
 export function getVisibleChats(ui) {
