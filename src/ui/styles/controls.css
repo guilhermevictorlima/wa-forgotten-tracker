@@ -1,7 +1,7 @@
 /* Controles: varredura, filtro de dias e busca por nome */
 .wai-controls { display: grid; gap: 8px; padding: 8px 14px; }
 .wai-controls label { color: var(--muted); font-size: 13px; }
-.wai-min { width: 52px; margin: 0 4px; }
+.wai-min, .wai-max { width: 30px; margin: 0 4px; }
 .wai-controls input {
   background: transparent; color: var(--fg); border: 1px solid var(--line);
   border-radius: 6px; padding: 5px 8px; font: inherit;
