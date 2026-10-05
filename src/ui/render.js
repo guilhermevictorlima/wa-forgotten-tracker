@@ -6,9 +6,15 @@ import { getActiveChats } from "../ignored.js";
 import { createChatListItem } from "./chat-list-item.js";
 import { createIgnoredListItem } from "./ignored-list-item.js";
 
+function readMaximumDays(ui) {
+  const raw = ui.maximumDaysInput.value;
+  return raw === "" ? Infinity : Number(raw);
+}
+
 function readFilters(ui) {
   return {
     minimumDays: Number(ui.minimumDaysInput.value) || 0,
+    maximumDays: readMaximumDays(ui),
     nameQuery: normalizeText(ui.nameSearchInput.value)
   };
 }

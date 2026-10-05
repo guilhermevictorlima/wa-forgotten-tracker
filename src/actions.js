@@ -54,6 +54,7 @@ export function bindEvents(ui, toggleButton) {
   ui.ignoredList.addEventListener("click", (event) => handleRestoreClick(ui, event));
   ui.chatList.addEventListener("click", (event) => handleChatClick(ui, event));
   ui.minimumDaysInput.addEventListener("input", () => render(ui));
+  ui.maximumDaysInput.addEventListener("input", () => render(ui));
   ui.nameSearchInput.addEventListener("input", () => render(ui));
 
   bindTabs(ui);

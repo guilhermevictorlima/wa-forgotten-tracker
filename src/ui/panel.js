@@ -66,6 +66,7 @@ export function mapPanelElements(panel) {
     closeButton: find(".wai-close"),
     scanButton: find(".wai-scan"),
     minimumDaysInput: find(".wai-min"),
+    maximumDaysInput: find(".wai-max"),
     nameSearchInput: find(".wai-search"),
     statusText: find(".wai-status"),
     chatList: find(".wai-list"),
