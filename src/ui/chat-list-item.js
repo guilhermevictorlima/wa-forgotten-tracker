@@ -25,7 +25,7 @@ function createIgnoreButton(name) {
 export function createChatListItem(chat, maxDaysAgo) {
   const item = document.createElement("li");
   item.className = `wai-item wai-${classifyForgetfulness(chat.daysAgo)}`;
-  item.title = `Rótulo original: ${chat.label}`;
+  item.title = `Última interação: ${chat.label}`;
   item.style.setProperty("--w", `${calculateBarWidthPercent(chat.daysAgo, maxDaysAgo)}%`);
 
   const openButton = document.createElement("button");
